@@ -58,6 +58,6 @@ Das Dashboard ist für ein vertrauenswürdiges Heimnetz vorgesehen; keine
 
 ## Veröffentlichung und Lizenz
 
-Dies ist eine lokal vorbereitete Kopie; sie wurde noch nicht hochgeladen.
-Vor Veröffentlichung eine Lizenz für den eigenen Code auswählen.
+Der eigene Projektcode steht unter der [MIT-Lizenz](LICENSE).
+Das öffentliche Repository ist [MONOLITH-public auf GitHub](https://github.com/FlorianHoelzel/MONOLITH-public).
 Vorhandene Lizenz- und Herkunftshinweise zu Schriften und des im Design Lab verwendeten Shaders bleiben erhalten.

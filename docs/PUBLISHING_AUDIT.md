@@ -4,7 +4,7 @@ Stand: 9. Oktober 2026.
 
 ## Ergebnis und Umfang
 
-Der finale öffentliche Quellstand umfasst 120 Dateien. Geprüft wurden Backend,
+Der öffentliche Quellstand umfasst einschließlich der ergänzten MIT-Lizenz 121 Dateien. Geprüft wurden Backend,
 HomeKit-Bridge, Frontend, Templates, Tests, Konfigurationsbeispiele, Deployment,
 Desktop-Wrapper, Lockdatei, Dokumentation, Bilder, Bild-/Schriftmetadaten,
 Git-Autoren und gespeicherte Git-Objekte sowie Veröffentlichungskopie und ZIP.
@@ -57,8 +57,8 @@ aus diesen zwei Bilddateien auslesbar.
 
 ## Git und Veröffentlichungskopien
 
-Beide Repositories enthalten jeweils einen neutralen Initial-Commit und kein
-Remote. Frühere Commitstände, Reflogs und interne Git-Snapshot-Referenzen wurden
+Zum Abschluss der ursprünglichen Prüfung enthielten beide Repositories jeweils
+einen neutralen Initial-Commit und kein Remote. Frühere Commitstände, Reflogs und interne Git-Snapshot-Referenzen wurden
 entfernt, anschließend nicht mehr referenzierte Objekte bereinigt. Auch die
 verbleibenden gespeicherten Git-Blobs wurden auf entfernte Angaben geprüft.
 
@@ -83,12 +83,15 @@ Es sind aktuell keine fertigen Desktop-Installer vorhanden.
 - Tests mit `PYTHON_DOTENV_DISABLED=1` und isolierten temporären Daten ausgeführt.
 - Automatisierte Tests starteten keine persistenten Dashboard- oder HomeKit-Dienste.
 - Die lokale Durchsichtsvorschau wurde auf ausdrücklichen Wunsch separat gestartet.
-- Kein Deployment und kein GitHub-Upload ausgeführt.
+- Während der ursprünglichen Prüfung kein Deployment oder GitHub-Upload ausgeführt.
 
 Die öffentliche Ausgabe ist für eine neue Installation vorgesehen. Die
 neutralisierten Geräte-/Profilkennungen und Haustiertabellen übernehmen keine
 Daten aus älteren Installationen; dafür wäre eine gesonderte Migration nötig.
 
-Vor einem Upload fehlen das GitHub-Ziel und eine Entscheidung über die Lizenz
-des eigenen Codes. Öffentliches Quellcodehosting ändert nichts daran, dass
+Anschließend wurde der geprüfte Stand auf ausdrücklichen Wunsch nach
+`https://github.com/FlorianHoelzel/MONOLITH-public` hochgeladen. Die ebenfalls
+ausdrücklich gewählte MIT-Lizenz wurde danach ergänzt; diese Folgeänderung
+enthält nur Lizenz- und Dokumentationsangaben sowie Paketmetadaten.
+Öffentliches Quellcodehosting ändert nichts daran, dass
 das Dashboard im vertrauenswürdigen lokalen Netz betrieben werden soll.
