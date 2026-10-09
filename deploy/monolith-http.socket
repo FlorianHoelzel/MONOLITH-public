@@ -1,0 +1,9 @@
+[Unit]
+Description=MONOLITH HTTP listener
+
+[Socket]
+ListenStream=80
+NoDelay=true
+
+[Install]
+WantedBy=sockets.target

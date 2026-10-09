@@ -1,0 +1,27 @@
+[Unit]
+Description=MONOLITH HomeKit Bridge
+Wants=network-online.target
+Requires=monolith.service
+After=network-online.target monolith.service
+
+[Service]
+Type=simple
+User=monolith
+Group=monolith
+WorkingDirectory=/opt/monolith
+Environment=PYTHONUNBUFFERED=1
+Environment=MONOLITH_DATA_DIR=/var/lib/monolith
+EnvironmentFile=-/etc/monolith/monolith.env
+ExecStart=/opt/monolith/.venv/bin/python /opt/monolith/homekit_bridge.py
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/var/lib/monolith
+
+[Install]
+WantedBy=multi-user.target

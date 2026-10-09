@@ -1,0 +1,27 @@
+[Unit]
+Description=MONOLITH Dashboard
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=monolith
+Group=monolith
+SupplementaryGroups=systemd-journal
+WorkingDirectory=/opt/monolith
+Environment=PYTHONUNBUFFERED=1
+Environment=MONOLITH_DATA_DIR=/var/lib/monolith
+EnvironmentFile=-/etc/monolith/monolith.env
+ExecStart=/opt/monolith/.venv/bin/python /opt/monolith/app.py
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/var/lib/monolith
+
+[Install]
+WantedBy=multi-user.target

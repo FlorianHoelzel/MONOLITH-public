@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#070e17" />
+    <title>MONOLITH Design Lab</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='monolith-logo.png') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css', v='20261001-device-layout-1') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='design-lab.css', v='20260930-night-1') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.48.0/dist/tabler-icons.min.css" />
+  </head>
+  <body class="design-lab-page">
+    <canvas
+      id="sky-lens-canvas"
+      data-sky-src="{{ url_for('static', filename='design-lab-stars.png') }}"
+      aria-hidden="true"
+    ></canvas>
+    <div class="sky-fallback" aria-hidden="true"></div>
+    <div class="lab-liquid-transition" aria-hidden="true"></div>
+
+    <div class="design-lab-shell">
+      <header class="lab-header">
+        <a class="lab-brand" href="/" aria-label="Zurück zu MONOLITH">
+          <img src="{{ url_for('static', filename='monolith-logo.png') }}" alt="" />
+          <span>MONOLITH</span>
+        </a>
+        <nav class="lab-tabs" role="tablist" aria-label="Ansicht wählen">
+          <button class="lab-tab is-active" type="button" role="tab" id="tab-rooms" aria-selected="true" aria-controls="panel-rooms" data-lab-tab="rooms">
+            <i class="ti ti-layout-grid" aria-hidden="true"></i><span>Räume</span>
+          </button>
+          <button class="lab-tab" type="button" role="tab" id="tab-all" aria-selected="false" aria-controls="panel-all" tabindex="-1" data-lab-tab="all">
+            <i class="ti ti-devices" aria-hidden="true"></i><span>Alle</span>
+          </button>
+          <button class="lab-tab" type="button" role="tab" id="tab-active" aria-selected="false" aria-controls="panel-active" tabindex="-1" data-lab-tab="active">
+            <i class="ti ti-bolt" aria-hidden="true"></i><span>Aktiv</span>
+          </button>
+          <button class="lab-tab" type="button" role="tab" id="tab-overview" aria-selected="false" aria-controls="panel-overview" tabindex="-1" data-lab-tab="overview">
+            <i class="ti ti-chart-dots-3" aria-hidden="true"></i><span>Status</span>
+          </button>
+          <button class="lab-tab" type="button" role="tab" id="tab-feed" aria-selected="false" aria-controls="panel-feed" tabindex="-1" data-lab-tab="feed">
+            <i class="ti ti-activity" aria-hidden="true"></i><span>Feed</span>
+          </button>
+        </nav>
+        <div class="lab-title">
+          <span>Design Lab</span>
+          <strong data-lab-current-title>Räume</strong>
+        </div>
+      </header>
+
+      <main class="lab-main">
+        <section class="panel devices-panel lab-devices-panel" aria-labelledby="design-lab-devices-title">
+          <div class="panel-header">
+            <div>
+              <span class="section-eyebrow">Home</span>
+              <h1 id="design-lab-devices-title" data-panel-title>Geräte nach Räumen</h1>
+            </div>
+            <span class="tab-position" aria-hidden="true"><b data-tab-number>01</b> / 05</span>
+          </div>
+
+          <div class="devices-scroll lab-tab-panel is-active" id="panel-rooms" role="tabpanel" aria-labelledby="tab-rooms" data-lab-panel="rooms">
+            <div class="rooms">
+              {% for room in rooms %}
+              <section class="room">
+                <div class="room-header">
+                  <div>
+                    <h2>{{ room }}</h2>
+                    {% set room_devices = devices.items() | selectattr("1.room", "equalto", room) | list %}
+                  </div>
+                </div>
+
+                <div class="devices">
+                  {% if room_devices %}
+                    {% for device_id, device in room_devices %}
+                    <article
+                      class="device-card"
+                      data-device="{{ device_id }}"
+                      data-type="{{ device.type }}"
+                      tabindex="0"
+                    >
+                      <div class="device-header">
+                        <div class="device-icon" data-icon-class="{{ device.icon }}">
+                          <i class="{{ device.icon }}" aria-hidden="true"></i>
+                        </div>
+                        <div class="device-title">
+                          <h3>{{ device.name }}</h3>
+                          <div class="device-state">
+                            <span class="device-state-dot"></span>
+                            <span class="device-state-text">Wird geladen...</span>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                    {% endfor %}
+                  {% else %}
+                    <div class="empty-room">Keine Geräte</div>
+                  {% endif %}
+                </div>
+              </section>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="devices-scroll lab-tab-panel" id="panel-all" role="tabpanel" aria-labelledby="tab-all" data-lab-panel="all" hidden>
+            <div class="devices lab-flat-grid" data-device-grid="all"></div>
+          </div>
+
+          <div class="devices-scroll lab-tab-panel" id="panel-active" role="tabpanel" aria-labelledby="tab-active" data-lab-panel="active" hidden>
+            <div class="devices lab-flat-grid" data-device-grid="active"></div>
+            <div class="lab-empty-state" data-active-empty hidden>
+              <i class="ti ti-moon-stars" aria-hidden="true"></i>
+              <strong>Gerade ist alles ruhig.</strong>
+              <span>Aktive, laufende oder ladende Geräte erscheinen automatisch hier.</span>
+            </div>
+          </div>
+
+          <div class="devices-scroll lab-tab-panel" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" data-lab-panel="overview" hidden>
+            <div class="status-overview" aria-live="polite">
+              <article class="status-stat status-stat-active">
+                <span>Aktiv</span><strong data-status-count="active">0</strong><small>läuft gerade</small>
+              </article>
+              <article class="status-stat status-stat-idle">
+                <span>Bereit</span><strong data-status-count="idle">0</strong><small>aus oder im Standby</small>
+              </article>
+              <article class="status-stat status-stat-unknown">
+                <span>Unklar</span><strong data-status-count="unknown">0</strong><small>nicht erreichbar</small>
+              </article>
+            </div>
+            <div class="type-overview" data-type-overview></div>
+          </div>
+
+          <div class="devices-scroll lab-tab-panel lab-feed-panel" id="panel-feed" role="tabpanel" aria-labelledby="tab-feed" data-lab-panel="feed" hidden>
+            <div class="lab-feed-heading">
+              <div>
+                <strong>Aktivitäten im Haus</strong>
+                <span>Beispieldaten zum Testen der Listenanimation</span>
+              </div>
+              <span class="lab-feed-demo"><i class="ti ti-flask" aria-hidden="true"></i> Demo-Feed</span>
+            </div>
+            <div class="lab-feed-window">
+              <div class="lab-activity-feed" data-fake-feed aria-label="Beispielaktivitäten"></div>
+              <div class="lab-feed-empty" data-feed-empty hidden>
+                <i class="ti ti-activity" aria-hidden="true"></i>
+                <strong>Listenanimation ist aus</strong>
+                <span>Aktiviere sie in den Effekteinstellungen.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <button class="effects-lab-toggle" type="button" aria-expanded="false" aria-controls="effects-lab-panel" data-effects-toggle>
+      <i class="ti ti-adjustments-horizontal" aria-hidden="true"></i>
+      <span>Effekte</span>
+    </button>
+    <aside class="effects-lab" id="effects-lab-panel" aria-label="Effekteinstellungen" data-effects-panel hidden>
+      <header class="effects-lab-header">
+        <div>
+          <span>Design Lab</span>
+          <strong>Effect Controls</strong>
+        </div>
+        <button type="button" aria-label="Effekteinstellungen schließen" data-effects-close>
+          <i class="ti ti-x" aria-hidden="true"></i>
+        </button>
+      </header>
+      <div class="effects-lab-content" data-effects-controls></div>
+      <footer class="effects-lab-footer">
+        <button type="button" data-effects-reset>
+          <i class="ti ti-restore" aria-hidden="true"></i>
+          Standardwerte
+        </button>
+      </footer>
+    </aside>
+
+    <script src="{{ url_for('static', filename='design-lab.js', v='20260930-night-1') }}"></script>
+  </body>
+</html>

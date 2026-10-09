@@ -1,0 +1,3585 @@
+<!doctype html>
+
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+
+    <title>MONOLITH</title>
+
+    <meta name="theme-color" content="#0d0d0f" />
+
+    <meta name="application-name" content="MONOLITH" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
+    <meta name="apple-mobile-web-app-title" content="MONOLITH" />
+
+    <script>
+      try {
+        if (
+          localStorage.getItem("monolith.finance.transfer.hidden")
+            === "true"
+        ) {
+          document.documentElement.classList.add(
+            "finance-transfer-hidden"
+          );
+        }
+      } catch (error) {
+        // Die Einstellung ist optional; die Ansicht funktioniert auch ohne sie.
+      }
+    </script>
+
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='manifest.webmanifest') }}"
+    />
+
+    <link
+      rel="apple-touch-icon"
+      href="{{ url_for('static', filename='icons/icon-180.png') }}"
+    />
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='monolith-logo.png') }}"
+    />
+
+    <link
+      rel="preload"
+      href="{{ url_for('static', filename='fonts/manrope/Manrope-Latin-Variable.woff2') }}"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css', v='20261009-public-neutral-2') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.48.0/dist/tabler-icons.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body>
+    <div class="dashboard">
+
+      <!-- ===================================================
+           HEADER
+      ==================================================== -->
+
+      <header class="header">
+
+        <div class="brand">
+
+          <img
+            class="brand-logo"
+            src="{{ url_for('static', filename='monolith-logo.png') }}"
+            alt="MONOLITH Logo"
+          />
+
+
+          <div class="header-brand">
+
+            <h1>
+              MONOLITH
+            </h1>
+
+          </div>
+
+        </div>
+
+
+        <nav
+          class="dashboard-tabs"
+          aria-label="Dashboard Bereiche"
+        >
+
+          <div class="dashboard-tab-group active" data-dashboard-group="home">
+            <button
+              class="dashboard-tab-group-button"
+              type="button"
+              aria-expanded="true"
+              aria-controls="dashboard-tabs-home"
+              data-dashboard-group-button="home"
+            >
+              Zuhause
+            </button>
+            <div
+              id="dashboard-tabs-home"
+              class="dashboard-tab-children"
+              role="tablist"
+              aria-label="Zuhause"
+            >
+              <button
+                id="dashboard-tab-overview"
+                class="dashboard-tab-button active"
+                type="button"
+                role="tab"
+                aria-selected="true"
+                aria-controls="dashboard-overview"
+                data-dashboard-tab="overview"
+              >
+                Übersicht
+              </button>
+              <button
+                id="dashboard-tab-climate"
+                class="dashboard-tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="dashboard-climate"
+                data-dashboard-tab="climate"
+                tabindex="-1"
+              >
+                Klima
+              </button>
+              <button
+                id="dashboard-tab-weather"
+                class="dashboard-tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="dashboard-weather"
+                data-dashboard-tab="weather"
+                tabindex="-1"
+              >
+                Wetter
+              </button>
+              <button
+                id="dashboard-tab-cameras"
+                class="dashboard-tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="dashboard-cameras"
+                data-dashboard-tab="cameras"
+                tabindex="-1"
+              >
+                Kameras
+              </button>
+            </div>
+          </div>
+
+          <div class="dashboard-tab-group" data-dashboard-group="daily">
+            <button
+              class="dashboard-tab-group-button"
+              type="button"
+              aria-expanded="false"
+              aria-controls="dashboard-tabs-daily"
+              data-dashboard-group-button="daily"
+            >
+              Alltag
+            </button>
+            <div
+              id="dashboard-tabs-daily"
+              class="dashboard-tab-children"
+              role="tablist"
+              aria-label="Alltag"
+              aria-hidden="true"
+            >
+              <button
+                id="dashboard-tab-shopping"
+                class="dashboard-tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="dashboard-shopping"
+                data-dashboard-tab="shopping"
+                tabindex="-1"
+              >
+                Einkauf
+              </button>
+              <button
+                id="dashboard-tab-meal-plan"
+                class="dashboard-tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="dashboard-meal-plan"
+                data-dashboard-tab="meal-plan"
+                tabindex="-1"
+              >
+                Essensplan
+              </button>
+              <button
+                id="dashboard-tab-packages"
+                class="dashboard-tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="dashboard-packages"
+                data-dashboard-tab="packages"
+                tabindex="-1"
+              >
+                Pakete
+              </button>
+              <button
+                id="dashboard-tab-pet"
+                class="dashboard-tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="dashboard-pet"
+                data-dashboard-tab="pet"
+                tabindex="-1"
+              >
+                Haustier
+              </button>
+            </div>
+          </div>
+
+          <div class="dashboard-tab-group" data-dashboard-group="planner">
+            <button
+              class="dashboard-tab-group-button"
+              type="button"
+              aria-expanded="false"
+              aria-controls="dashboard-tabs-planner"
+              data-dashboard-group-button="planner"
+            >
+              Planer
+            </button>
+            <div
+              id="dashboard-tabs-planner"
+              class="dashboard-tab-children"
+              role="tablist"
+              aria-label="Planer"
+              aria-hidden="true"
+            >
+              <button
+                id="dashboard-tab-planner"
+                class="dashboard-tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="dashboard-planner"
+                data-dashboard-tab="planner"
+                tabindex="-1"
+              >
+                Kalender
+              </button>
+              <button
+                id="dashboard-tab-departures"
+                class="dashboard-tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="dashboard-departures"
+                data-dashboard-tab="departures"
+                tabindex="-1"
+              >
+                Abfahrten
+              </button>
+              <button
+                id="dashboard-tab-finance"
+                class="dashboard-tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="dashboard-finance"
+                data-dashboard-tab="finance"
+                tabindex="-1"
+              >
+                Finanzen
+              </button>
+            </div>
+          </div>
+
+          <div class="dashboard-tab-group" data-dashboard-group="system">
+            <button
+              class="dashboard-tab-group-button"
+              type="button"
+              aria-expanded="false"
+              aria-controls="dashboard-tabs-system"
+              data-dashboard-group-button="system"
+            >
+              System
+            </button>
+            <div
+              id="dashboard-tabs-system"
+              class="dashboard-tab-children"
+              role="tablist"
+              aria-label="System"
+              aria-hidden="true"
+            >
+              <button
+                id="dashboard-tab-services"
+                class="dashboard-tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="dashboard-services"
+                data-dashboard-tab="services"
+                tabindex="-1"
+              >
+                Dienste
+              </button>
+              <button
+                id="dashboard-tab-network"
+                class="dashboard-tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="dashboard-network"
+                data-dashboard-tab="network"
+                tabindex="-1"
+              >
+                Netzwerk
+              </button>
+              <button
+                id="dashboard-tab-server"
+                class="dashboard-tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="dashboard-server"
+                data-dashboard-tab="server"
+                tabindex="-1"
+              >
+                Raspberry Pi
+              </button>
+              <button
+                id="dashboard-tab-settings"
+                class="dashboard-tab-button"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="dashboard-settings"
+                data-dashboard-tab="settings"
+                tabindex="-1"
+              >
+                Einstellungen
+              </button>
+            </div>
+          </div>
+
+        </nav>
+
+
+        <div class="header-tools">
+          <time id="header-date" class="header-date" datetime="">
+            <span data-header-date-long>—</span>
+            <span data-header-date-short>—</span>
+          </time>
+          <span class="header-status-divider" aria-hidden="true">·</span>
+          <time
+            id="header-clock"
+            class="header-clock"
+            datetime=""
+          >
+            <span class="header-clock-display">
+              <span data-clock-hours>00</span>
+              <span class="header-clock-separator">:</span>
+              <span data-clock-minutes>00</span>
+            </span>
+          </time>
+
+        </div>
+
+      </header>
+
+
+      <!-- ===================================================
+           MAIN LAYOUT
+      ==================================================== -->
+
+      <main
+        class="main-layout"
+        data-active-dashboard-tab="overview"
+      >
+
+        <!-- =================================================
+             DEVICES
+        ================================================== -->
+
+        <section
+          id="dashboard-overview"
+          class="panel devices-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-overview"
+          data-dashboard-panel="overview"
+        >
+
+          <div class="panel-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                Home
+              </span>
+
+              <h2>
+                Geräte
+              </h2>
+
+            </div>
+
+          </div>
+
+          <div class="devices-scroll">
+
+            <div class="rooms">
+
+              {% for room in rooms %}
+
+              <section class="room">
+
+                <div class="room-header">
+
+                  <div>
+
+                    <h3>
+                      {{ room }}
+                    </h3>
+
+
+                    {% set room_devices =
+                      devices.items()
+                      | selectattr(
+                        "1.room",
+                        "equalto",
+                        room
+                      )
+                      | list
+                    %}
+                  </div>
+
+                </div>
+
+
+                <div class="devices">
+
+                  {% if room_devices %}
+
+                    {% for
+                      device_id,
+                      device
+                      in room_devices
+                    %}
+
+                    <article
+                      class="device-card"
+                      data-device="{{ device_id }}"
+                      data-type="{{ device.type }}"
+                    >
+
+                      <div class="device-header">
+                        <div
+                          class="device-icon"
+                          data-icon-class="{{ device.icon }}"
+                        >
+                          <i class="{{ device.icon }}"></i>
+                        </div>
+                        <div class="device-title">
+
+                          <h4>
+                            {{ device.name }}
+                          </h4>
+                          <div class="device-state">
+                            <span
+                              class="device-state-dot"
+                            ></span>
+                            <span
+                              class="device-state-text"
+                            >
+                              Wird geladen...
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </article>
+
+                    {% endfor %}
+
+
+                  {% else %}
+
+                    <div class="empty-room">
+                      Keine Geräte
+                    </div>
+
+                  {% endif %}
+
+                </div>
+
+              </section>
+
+              {% endfor %}
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PRESENCE
+        ================================================== -->
+
+        <section
+          class="panel presence-panel"
+          data-dashboard-panel="overview"
+        >
+
+          <div class="presence-bar">
+
+            <div class="presence-heading">
+
+              <span class="section-eyebrow">
+                Anwesenheit
+              </span>
+
+            </div>
+
+
+            <div class="presence-people">
+
+              <div
+                class="presence-person checking"
+                data-presence-person="person_1"
+              >
+
+                <div class="device-header">
+                  <span class="device-icon" aria-hidden="true"><i class="ti ti-door-exit"></i></span>
+                  <div class="device-title presence-person-content">
+                    <h4 class="presence-person-name">Person 1</h4>
+                    <div class="device-state">
+                      <span class="presence-person-status">Wird geprüft...</span>
+                    </div>
+                    <time class="presence-person-time" hidden></time>
+                  </div>
+                </div>
+
+              </div>
+
+
+              <div
+                class="presence-person unconfigured"
+                data-presence-person="person_2"
+              >
+
+                <div class="device-header">
+                  <span class="device-icon" aria-hidden="true"><i class="ti ti-door-exit"></i></span>
+                  <div class="device-title presence-person-content">
+                    <h4 class="presence-person-name">Person 2</h4>
+                    <div class="device-state">
+                      <span class="presence-person-status">Noch nicht eingerichtet</span>
+                    </div>
+                    <time class="presence-person-time" hidden></time>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CLIMATE
+        ================================================== -->
+
+        <section
+          id="dashboard-climate"
+          class="panel climate-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-climate"
+          data-dashboard-panel="climate"
+          hidden
+        >
+
+          <div class="panel-header climate-panel-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                Environment
+              </span>
+
+              <h2>
+                Klima
+              </h2>
+
+            </div>
+
+
+          </div>
+
+
+          <div class="climate-workspace">
+
+            <!-- =============================================
+                 CURRENT CLIMATE
+            ============================================== -->
+
+            <section
+              class="climate-current-section"
+              aria-labelledby="climate-current-heading"
+            >
+
+              <div class="climate-section-header">
+
+                <div>
+
+                  <span class="section-eyebrow">
+                    Aktuell
+                  </span>
+
+                  <h3 id="climate-current-heading">
+                    Räume
+                  </h3>
+
+                </div>
+
+              </div>
+
+
+              <div
+                class="climate-grid"
+                role="listbox"
+                aria-label="Raum für Verlauf auswählen"
+              >
+
+                {% for room_id, sensor in sensors.items() %}
+
+                <article
+                  class="climate-card{% if loop.first %} selected{% endif %}"
+                  role="option"
+                  aria-selected="{% if loop.first %}true{% else %}false{% endif %}"
+                  tabindex="{% if loop.first %}0{% else %}-1{% endif %}"
+                  data-sensor-room="{{ room_id }}"
+                >
+
+                  <div class="climate-card-header">
+
+                    <h3>
+                      {{ sensor.name }}
+                    </h3>
+
+                    <span class="climate-indicator">
+                      <i class="ti ti-chevron-right"></i>
+                    </span>
+
+                  </div>
+
+
+                  <div class="climate-values">
+
+                    <div class="climate-value">
+
+                      <span class="climate-value-icon">
+                        <i class="ti ti-temperature"></i>
+                      </span>
+
+
+                      <div class="climate-value-content">
+
+                        <div class="climate-reading">
+
+                          <span
+                            class="climate-number temperature-value"
+                          >
+                            -
+                          </span>
+
+                          <span class="climate-unit">
+                            °C
+                          </span>
+
+                        </div>
+
+
+                        <span class="climate-label">
+                          Temperatur
+                        </span>
+
+                      </div>
+
+                    </div>
+
+
+                    <div class="climate-value">
+
+                      <span class="climate-value-icon">
+                        <i class="ti ti-droplet"></i>
+                      </span>
+
+
+                      <div class="climate-value-content">
+
+                        <div class="climate-reading">
+
+                          <span
+                            class="climate-number humidity-value"
+                          >
+                            -
+                          </span>
+
+                          <span class="climate-unit">
+                            %
+                          </span>
+
+                        </div>
+
+
+                        <span class="climate-label">
+                          Luftfeuchtigkeit
+                        </span>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </article>
+
+                {% endfor %}
+
+              </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 CLIMATE HISTORY
+            ============================================== -->
+
+            <section
+              id="climate-history"
+              class="climate-history-section"
+              aria-labelledby="climate-history-heading"
+            >
+
+              <div class="climate-section-header history-section-header">
+
+                <div>
+
+                  <span class="section-eyebrow">
+                    Verlauf
+                  </span>
+
+                  <h3 id="climate-history-heading">
+                    Wohnzimmer
+                  </h3>
+
+                </div>
+
+
+                <div class="history-controls">
+                  <div class="range-selector">
+
+                    <button
+                      class="range-button active"
+                      type="button"
+                      data-hours="24"
+                    >
+                      24h
+                    </button>
+
+
+                    <button
+                      class="range-button"
+                      type="button"
+                      data-hours="168"
+                    >
+                      7 Tage
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="history-grid">
+
+                <!-- TEMPERATURE -->
+
+                <article class="chart-card">
+
+                  <div class="chart-card-header">
+
+                    <div>
+
+                      <span class="chart-label">
+                        Temperatur
+                      </span>
+
+                      <strong
+                        id="history-temperature-current"
+                        class="chart-current"
+                      >
+                        -
+                      </strong>
+
+                    </div>
+
+
+                    <span class="chart-unit">
+                      °C
+                    </span>
+
+                  </div>
+
+
+                  <div class="chart-container">
+
+                    <canvas
+                      id="temperature-chart"
+                    ></canvas>
+
+                  </div>
+
+                </article>
+
+
+                <!-- HUMIDITY -->
+
+                <article class="chart-card">
+
+                  <div class="chart-card-header">
+
+                    <div>
+
+                      <span class="chart-label">
+                        Luftfeuchtigkeit
+                      </span>
+
+                      <strong
+                        id="history-humidity-current"
+                        class="chart-current"
+                      >
+                        -
+                      </strong>
+
+                    </div>
+
+
+                    <span class="chart-unit">
+                      %
+                    </span>
+
+                  </div>
+
+
+                  <div class="chart-container">
+
+                    <canvas
+                      id="humidity-chart"
+                    ></canvas>
+
+                  </div>
+
+                </article>
+
+
+                <!-- PM2.5 - HALLWAY ONLY -->
+
+                <article
+                  class="chart-card"
+                  data-hallway-air-quality-chart
+                  hidden
+                >
+
+                  <div class="chart-card-header">
+
+                    <div>
+
+                      <span class="chart-label">
+                        PM2.5
+                      </span>
+
+                      <strong
+                        id="history-pm25-current"
+                        class="chart-current"
+                      >
+                        -
+                      </strong>
+
+                    </div>
+
+
+                    <span class="chart-unit">
+                      µg/m³
+                    </span>
+
+                  </div>
+
+
+                  <div class="chart-container">
+
+                    <canvas
+                      id="pm25-chart"
+                    ></canvas>
+
+                  </div>
+
+                </article>
+
+
+                <!-- IAI - HALLWAY ONLY -->
+
+                <article
+                  class="chart-card"
+                  data-hallway-air-quality-chart
+                  hidden
+                >
+
+                  <div class="chart-card-header">
+
+                    <div>
+
+                      <span class="chart-label">
+                        IAI
+                      </span>
+
+                      <strong
+                        id="history-iai-current"
+                        class="chart-current"
+                      >
+                        -
+                      </strong>
+
+                    </div>
+
+
+                    <span class="chart-unit">
+                      1-12
+                    </span>
+
+                  </div>
+
+
+                  <div class="chart-container">
+
+                    <canvas
+                      id="iai-chart"
+                    ></canvas>
+
+                  </div>
+
+                </article>
+
+              </div>
+
+            </section>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SHOPPING
+        ================================================== -->
+
+        <section
+          id="dashboard-shopping"
+          class="panel shopping-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-shopping"
+          data-dashboard-panel="shopping"
+          hidden
+        >
+
+          <div class="panel-header shopping-panel-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                Picnic
+              </span>
+
+              <h2>
+                Einkauf
+              </h2>
+
+            </div>
+
+
+            <button
+              class="shopping-refresh-button"
+              type="button"
+              data-picnic-refresh
+              aria-label="Picnic-Daten aktualisieren"
+            >
+              <i class="ti ti-refresh"></i>
+              <span>Aktualisieren</span>
+            </button>
+
+          </div>
+
+
+          <div
+            class="shopping-status"
+            data-picnic-status
+            aria-live="polite"
+          >
+
+            <span class="shopping-status-dot"></span>
+            <span data-picnic-status-text>Wird geladen...</span>
+
+          </div>
+
+
+          <div class="shopping-workspace">
+
+            <section class="shopping-cart-section">
+
+              <div class="shopping-section-heading">
+
+                <div>
+
+                  <span class="section-eyebrow">
+                    Aktuell
+                  </span>
+
+                  <h3 data-picnic-active-title>
+                    Warenkorb
+                  </h3>
+
+                </div>
+
+
+                <div class="shopping-cart-total">
+
+                  <strong data-picnic-total>-</strong>
+                  <span data-picnic-count>Keine Artikel</span>
+
+                </div>
+
+              </div>
+
+
+              <div
+                class="shopping-cart-list"
+                data-picnic-cart
+              >
+
+                <div class="shopping-empty">
+                  Einkauf wird geladen...
+                </div>
+
+              </div>
+
+            </section>
+
+
+            <aside class="shopping-sidebar">
+
+              <section
+                class="shopping-summary-card shopping-order-status-card"
+                data-picnic-order-status-card
+              >
+
+                <span class="section-eyebrow">
+                  Bestellstatus
+                </span>
+
+                <div data-picnic-order-status>
+
+                  <div class="shopping-empty compact">
+                    Status wird geladen...
+                  </div>
+
+                </div>
+
+              </section>
+
+
+              <section
+                class="shopping-summary-card shopping-history-card"
+              >
+
+                <span class="section-eyebrow">
+                  Letzte Lieferungen
+                </span>
+
+                <div
+                  class="shopping-deliveries-list"
+                  data-picnic-deliveries
+                >
+
+                  <div class="shopping-empty compact">
+                    Lieferhistorie wird geladen...
+                  </div>
+
+                </div>
+
+              </section>
+
+
+              <section
+                class="shopping-connect-card"
+                data-picnic-connect
+                hidden
+              >
+
+                <i class="ti ti-shopping-cart"></i>
+
+                <h3 data-picnic-connect-title>
+                  Picnic verbinden
+                </h3>
+
+                <p data-picnic-connect-copy>
+                  Melde dich mit deinem Picnic-Konto an.
+                </p>
+
+
+                <form
+                  class="shopping-login-form"
+                  data-picnic-login-form
+                >
+
+                  <label for="picnic-username">
+                    E-Mail-Adresse
+                  </label>
+
+                  <input
+                    id="picnic-username"
+                    name="username"
+                    type="email"
+                    autocomplete="username"
+                    required
+                  />
+
+
+                  <label for="picnic-password">
+                    Passwort
+                  </label>
+
+                  <input
+                    id="picnic-password"
+                    name="password"
+                    type="password"
+                    autocomplete="current-password"
+                    required
+                  />
+
+
+                  <button
+                    class="shopping-primary-button"
+                    type="submit"
+                  >
+                    Bei Picnic anmelden
+                  </button>
+
+                  <span class="shopping-login-note">
+                    Das Passwort wird nicht gespeichert.
+                  </span>
+
+                </form>
+
+
+                <button
+                  class="shopping-primary-button"
+                  type="button"
+                  data-picnic-request-code
+                  hidden
+                >
+                  SMS-Code anfordern
+                </button>
+
+
+                <form
+                  class="shopping-code-form"
+                  data-picnic-code-form
+                  hidden
+                >
+
+                  <label for="picnic-2fa-code">
+                    SMS-Code
+                  </label>
+
+                  <div>
+
+                    <input
+                      id="picnic-2fa-code"
+                      name="code"
+                      type="text"
+                      inputmode="numeric"
+                      autocomplete="one-time-code"
+                      maxlength="8"
+                      placeholder="123456"
+                      required
+                    />
+
+                    <button
+                      class="shopping-primary-button"
+                      type="submit"
+                    >
+                      Verbinden
+                    </button>
+
+                  </div>
+
+                </form>
+
+              </section>
+
+            </aside>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             MEAL PLAN
+        ================================================== -->
+
+        <section
+          id="dashboard-meal-plan"
+          class="panel meal-plan-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-meal-plan"
+          data-dashboard-panel="meal-plan"
+          hidden
+        >
+
+          <div class="panel-header meal-plan-panel-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                Alltag
+              </span>
+
+              <h2>
+                Essensplan
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="meal-plan-workspace">
+
+            <div class="meal-plan-list-pane">
+
+              <section class="meal-plan-week" data-meal-plan-week="0">
+
+                <header class="meal-plan-week-header">
+                  <div>
+                    <h3>Diese Woche</h3>
+                  </div>
+                  <span data-meal-plan-count="0">0 Gerichte</span>
+                </header>
+
+                <form
+                  class="meal-plan-add-form"
+                  data-meal-plan-form
+                  data-week-offset="0"
+                >
+                  <label class="visually-hidden" for="meal-plan-current-input">
+                    Gericht für diese Woche
+                  </label>
+                  <input
+                    id="meal-plan-current-input"
+                    name="name"
+                    type="text"
+                    maxlength="120"
+                    placeholder="Gericht hinzufügen"
+                    autocomplete="off"
+                    required
+                  />
+                  <button type="submit" aria-label="Gericht hinzufügen">
+                    <i class="ti ti-plus"></i>
+                  </button>
+                </form>
+
+                <div
+                  class="meal-plan-items"
+                  data-meal-plan-items="0"
+                  aria-live="polite"
+                >
+                  <div class="meal-plan-empty">Liste wird geladen...</div>
+                </div>
+
+              </section>
+
+
+              <section class="meal-plan-week meal-plan-week-next" data-meal-plan-week="1">
+
+                <header class="meal-plan-week-header">
+                  <div>
+                    <h3>Nächste Woche</h3>
+                  </div>
+                  <span data-meal-plan-count="1">0 Gerichte</span>
+                </header>
+
+                <form
+                  class="meal-plan-add-form"
+                  data-meal-plan-form
+                  data-week-offset="1"
+                >
+                  <label class="visually-hidden" for="meal-plan-next-input">
+                    Gericht für nächste Woche
+                  </label>
+                  <input
+                    id="meal-plan-next-input"
+                    name="name"
+                    type="text"
+                    maxlength="120"
+                    placeholder="Gericht hinzufügen"
+                    autocomplete="off"
+                    required
+                  />
+                  <button type="submit" aria-label="Gericht hinzufügen">
+                    <i class="ti ti-plus"></i>
+                  </button>
+                </form>
+
+                <div
+                  class="meal-plan-items"
+                  data-meal-plan-items="1"
+                  aria-live="polite"
+                >
+                  <div class="meal-plan-empty">Liste wird geladen...</div>
+                </div>
+
+              </section>
+
+            </div>
+
+
+            <aside class="meal-plan-recipe-pane">
+
+              <header class="meal-plan-recipe-header">
+                <div>
+                  <span class="section-eyebrow">Inspiration</span>
+                  <h3>Zufälliges Gericht</h3>
+                </div>
+                <div class="meal-plan-recipe-actions">
+                  <button
+                    class="meal-plan-saved-button"
+                    type="button"
+                    data-saved-recipes-toggle
+                  >
+                    <i class="ti ti-bookmarks"></i>
+                    <span>Gespeichert</span>
+                    <strong data-saved-recipes-count>0</strong>
+                  </button>
+                  <button
+                    class="meal-plan-random-button"
+                    type="button"
+                    data-random-recipe-refresh
+                  >
+                    <i class="ti ti-refresh"></i>
+                    <span>Neues Gericht</span>
+                  </button>
+                </div>
+              </header>
+
+              <div
+                class="meal-plan-recipe-status"
+                data-random-recipe-status
+                role="status"
+              >
+                Gericht wird geladen...
+              </div>
+
+              <section class="meal-plan-saved-recipes" data-saved-recipes hidden>
+                <header>
+                  <div>
+                    <span class="section-eyebrow">Kochbuch</span>
+                    <h4>Gespeicherte Gerichte</h4>
+                  </div>
+                  <button
+                    type="button"
+                    data-saved-recipes-close
+                    aria-label="Gespeicherte Gerichte schließen"
+                  >
+                    <i class="ti ti-x"></i>
+                  </button>
+                </header>
+                <div class="meal-plan-saved-list" data-saved-recipes-list>
+                  <div class="meal-plan-empty">Noch keine Gerichte gespeichert</div>
+                </div>
+              </section>
+
+              <article class="meal-plan-recipe" data-random-recipe hidden>
+                <div class="meal-plan-recipe-intro">
+                  <img
+                    data-random-recipe-image
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    referrerpolicy="no-referrer"
+                  />
+                  <div>
+                    <div class="meal-plan-recipe-title-row">
+                      <h4 data-random-recipe-title></h4>
+                      <button
+                        class="meal-plan-bookmark-button"
+                        type="button"
+                        data-random-recipe-bookmark
+                      >
+                        <i class="ti ti-bookmark"></i>
+                        <span>Merken</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <section class="meal-plan-recipe-section">
+                  <h5>Zutaten</h5>
+                  <ul data-random-recipe-ingredients></ul>
+                </section>
+
+                <section class="meal-plan-recipe-section">
+                  <h5>Zubereitung</h5>
+                  <div
+                    class="meal-plan-recipe-instructions"
+                    data-random-recipe-instructions
+                  ></div>
+                </section>
+
+                <footer class="meal-plan-recipe-footer">
+                  <a
+                    href="https://huggingface.co/datasets/SinclairSchneider/deutsche_rezepte"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Deutscher Rezeptdatensatz auf Hugging Face
+                  </a>
+                  <a
+                    data-random-recipe-source
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    hidden
+                  >
+                    Originalrezept
+                  </a>
+                </footer>
+              </article>
+
+            </aside>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ACTIVITY FEED
+        ================================================== -->
+
+        <section
+          class="panel feed-panel"
+          data-dashboard-panel="overview"
+        >
+
+          <div class="panel-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                Activity
+              </span>
+
+              <h2>
+                Feed
+              </h2>
+
+            </div>
+
+
+            <div class="feed-live">
+
+              <span class="feed-live-dot"></span>
+
+              <span>
+                Live
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="activity-feed"
+            class="activity-feed"
+          >
+
+            <div class="feed-empty">
+              Noch keine Aktivitäten
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PLANNER
+        ================================================== -->
+
+        <section
+          id="dashboard-planner"
+          class="panel planner-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-planner"
+          data-dashboard-panel="planner"
+          hidden
+        >
+
+          <div class="panel-header planner-panel-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                iCloud
+              </span>
+
+              <h2>
+                Kalender
+              </h2>
+
+            </div>
+
+
+            <div class="planner-header-actions">
+
+              <span
+                class="planner-sync-status"
+                data-planner-sync-status
+                aria-live="polite"
+              >
+                Noch nicht synchronisiert
+              </span>
+
+              <button
+                class="planner-icon-button"
+                type="button"
+                data-planner-refresh
+                aria-label="Kalender und Aufgaben aktualisieren"
+                title="Aktualisieren"
+              >
+                <i class="ti ti-refresh"></i>
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="planner-workspace">
+
+            <section
+              class="planner-calendar-section"
+              aria-labelledby="planner-calendar-title"
+            >
+
+              <header class="planner-calendar-toolbar">
+
+                <div>
+
+                  <h3 id="planner-calendar-title">
+                    Kalender
+                  </h3>
+
+                  <p data-planner-calendar-subtitle>
+                    Monatsübersicht
+                  </p>
+
+                </div>
+
+
+                <div class="planner-calendar-actions">
+
+                  <button
+                    class="planner-today-button"
+                    type="button"
+                    data-planner-today
+                  >
+                    Heute
+                  </button>
+
+                  <div class="planner-month-navigation">
+
+                    <button
+                      class="planner-icon-button"
+                      type="button"
+                      data-planner-previous
+                      aria-label="Vorheriger Monat"
+                    >
+                      <i class="ti ti-chevron-left"></i>
+                    </button>
+
+                    <strong data-planner-month-label>
+                      Monat
+                    </strong>
+
+                    <button
+                      class="planner-icon-button"
+                      type="button"
+                      data-planner-next
+                      aria-label="Nächster Monat"
+                    >
+                      <i class="ti ti-chevron-right"></i>
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </header>
+
+
+              <div
+                class="planner-weekdays"
+                aria-hidden="true"
+              >
+                <span>Mo</span>
+                <span>Di</span>
+                <span>Mi</span>
+                <span>Do</span>
+                <span>Fr</span>
+                <span>Sa</span>
+                <span>So</span>
+              </div>
+
+
+              <div
+                class="planner-calendar-grid"
+                data-planner-calendar-grid
+                role="grid"
+                aria-label="Monatskalender"
+                aria-busy="true"
+              ></div>
+
+            </section>
+
+
+            <aside class="planner-sidebar">
+
+              <section
+                class="planner-side-section planner-upcoming-section"
+                aria-labelledby="planner-upcoming-title"
+              >
+
+                <header class="planner-side-header">
+
+                  <div>
+
+                    <span class="planner-side-icon">
+                      <i class="ti ti-calendar-event"></i>
+                    </span>
+
+                    <div>
+
+                      <h3 id="planner-upcoming-title">
+                        Anstehend
+                      </h3>
+
+                      <p>Nächste 7 Tage</p>
+
+                    </div>
+
+                  </div>
+
+                </header>
+
+
+                <div
+                  class="planner-upcoming-list"
+                  data-planner-upcoming
+                  aria-live="polite"
+                >
+
+                  <div class="planner-skeleton-list" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+
+                </div>
+
+              </section>
+
+            </aside>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PAKETE
+        ================================================== -->
+
+        <section
+          id="dashboard-packages"
+          class="panel packages-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-packages"
+          data-dashboard-panel="packages"
+          hidden
+        >
+
+          <div class="panel-header packages-panel-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                Lieferungen
+              </span>
+
+              <h2>
+                Pakete
+              </h2>
+
+            </div>
+
+
+            <div class="packages-header-actions">
+              <div class="packages-summary" aria-live="polite">
+                <span>
+                  <strong data-packages-active-count>0</strong>
+                  aktiv
+                </span>
+                <span>
+                  <strong data-packages-today-count>0</strong>
+                  heute
+                </span>
+              </div>
+
+              <button
+                class="packages-refresh-button"
+                type="button"
+                data-packages-refresh
+                aria-label="Paketstatus jetzt aktualisieren"
+                title="Jetzt aktualisieren"
+              >
+                <i class="ti ti-refresh"></i>
+              </button>
+            </div>
+
+          </div>
+
+
+          <div class="packages-setup" data-packages-setup hidden>
+            <i class="ti ti-key"></i>
+            <div>
+              <strong>Automatisches Tracking einrichten</strong>
+              <p>
+                Auf dem Raspberry Pi fehlt der Ship24 API-Schlüssel.
+                Danach aktualisiert MONOLITH alle Sendungen selbstständig.
+              </p>
+            </div>
+          </div>
+
+
+          <div class="packages-workspace">
+
+            <section
+              class="packages-list-section"
+              aria-labelledby="packages-list-title"
+            >
+
+              <header class="packages-list-toolbar">
+
+                <div>
+                  <h3 id="packages-list-title">Sendungen</h3>
+                  <p data-packages-list-subtitle>Alle Pakete im Blick</p>
+                </div>
+
+
+                <div
+                  class="packages-filter"
+                  role="group"
+                  aria-label="Pakete filtern"
+                >
+                  <button
+                    class="packages-filter-button active"
+                    type="button"
+                    data-packages-filter="active"
+                    aria-pressed="true"
+                  >
+                    Aktiv
+                  </button>
+                  <button
+                    class="packages-filter-button"
+                    type="button"
+                    data-packages-filter="all"
+                    aria-pressed="false"
+                  >
+                    Alle
+                  </button>
+                </div>
+
+              </header>
+
+
+              <div
+                class="packages-list"
+                data-packages-list
+                aria-live="polite"
+                aria-busy="true"
+              >
+                <div class="packages-loading" aria-hidden="true">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+
+            </section>
+
+
+            <aside class="packages-add-section">
+
+              <header class="packages-add-header">
+                <span class="packages-add-icon">
+                  <i class="ti ti-package-import"></i>
+                </span>
+                <div>
+                  <h3>Paket hinzufügen</h3>
+                  <p>Status und Verlauf werden automatisch aktualisiert</p>
+                </div>
+              </header>
+
+
+              <form class="packages-add-form" data-packages-add-form>
+
+                <label>
+                  <span>Bezeichnung</span>
+                  <input
+                    name="name"
+                    type="text"
+                    maxlength="80"
+                    autocomplete="off"
+                    required
+                  />
+                </label>
+
+
+                <label>
+                  <span>Sendungsnummer</span>
+                  <input
+                    name="tracking_number"
+                    type="text"
+                    maxlength="48"
+                    autocomplete="off"
+                    autocapitalize="characters"
+                    spellcheck="false"
+                    required
+                  />
+                </label>
+
+
+                <label>
+                  <span>Dienstleister</span>
+                  <select name="carrier">
+                    <option value="auto">Automatisch erkennen</option>
+                    <option value="dhl">DHL</option>
+                    <option value="deutsche_post">Deutsche Post</option>
+                    <option value="hermes">Hermes</option>
+                    <option value="dpd">DPD</option>
+                    <option value="gls">GLS</option>
+                    <option value="ups">UPS</option>
+                    <option value="fedex">FedEx</option>
+                    <option value="amazon">Amazon Logistics</option>
+                    <option value="tnt">TNT</option>
+                    <option value="other">Anderer Dienstleister</option>
+                  </select>
+                </label>
+
+
+                <label>
+                  <span>Empfänger-PLZ</span>
+                  <input
+                    name="destination_post_code"
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="12"
+                    autocomplete="postal-code"
+                  />
+                </label>
+
+
+                <label>
+                  <span>Notiz</span>
+                  <textarea
+                    name="note"
+                    rows="3"
+                    maxlength="240"
+                  ></textarea>
+                </label>
+
+
+                <div
+                  class="packages-form-status"
+                  data-packages-form-status
+                  role="status"
+                  hidden
+                ></div>
+
+
+                <button class="packages-add-button" type="submit">
+                  <i class="ti ti-plus"></i>
+                  Tracking starten
+                </button>
+
+              </form>
+
+
+              <div class="packages-provider-note">
+                <i class="ti ti-route"></i>
+                <p>
+                  MONOLITH prüft aktive Sendungen alle 15 Minuten und übernimmt
+                  Status, Ereignisse und Lieferprognosen automatisch.
+                </p>
+              </div>
+
+            </aside>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             FINANZEN
+        ================================================== -->
+
+        <section
+          id="dashboard-finance"
+          class="panel finance-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-finance"
+          data-dashboard-panel="finance"
+          hidden
+        >
+
+          <div class="panel-header finance-panel-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                Budget
+              </span>
+
+              <h2>
+                Finanzen
+              </h2>
+
+            </div>
+
+
+            <div
+              class="finance-month-navigation"
+              aria-label="Monat auswählen"
+            >
+
+              <button
+                class="finance-icon-button finance-transfer-toggle"
+                type="button"
+                data-finance-transfer-toggle
+                aria-label="Startübertrag ausblenden"
+                aria-expanded="true"
+                title="Startübertrag ausblenden"
+              >
+                <i class="ti ti-eye-off"></i>
+              </button>
+
+              <button
+                class="finance-icon-button"
+                type="button"
+                data-finance-previous-month
+                aria-label="Vorheriger Monat"
+              >
+                <i class="ti ti-chevron-left"></i>
+              </button>
+
+              <strong data-finance-month-label></strong>
+
+              <button
+                class="finance-icon-button"
+                type="button"
+                data-finance-next-month
+                aria-label="Nächster Monat"
+              >
+                <i class="ti ti-chevron-right"></i>
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="finance-summary" aria-live="polite">
+
+            <div class="finance-balance">
+              <span>Noch verfügbar</span>
+              <strong data-finance-available>0,00 €</strong>
+            </div>
+
+            <dl class="finance-totals">
+              <div>
+                <dt>Übertrag Vormonat</dt>
+                <dd data-finance-carried>0,00 €</dd>
+              </div>
+              <div>
+                <dt>Einnahmen</dt>
+                <dd data-finance-income>0,00 €</dd>
+              </div>
+              <div>
+                <dt>Fixkosten</dt>
+                <dd data-finance-fixed>0,00 €</dd>
+              </div>
+              <div>
+                <dt>Weitere Ausgaben</dt>
+                <dd data-finance-variable>0,00 €</dd>
+              </div>
+            </dl>
+
+          </div>
+
+
+          <form
+            class="finance-transfer-form"
+            data-finance-transfer-form
+          >
+            <div class="finance-transfer-copy">
+              <strong>Einmaliger Startübertrag</strong>
+              <span>Wird ab dem ausgewählten Monat weitergerechnet</span>
+            </div>
+
+            <label>
+              <div class="finance-amount-input">
+                <input
+                  name="amount"
+                  type="text"
+                  inputmode="decimal"
+                  maxlength="14"
+                  pattern="[0-9]+(,[0-9]{1,2})?"
+                  placeholder="0,00"
+                  aria-label="Betrag des Startübertrags"
+                  required
+                />
+                <span>€</span>
+              </div>
+            </label>
+
+            <button class="finance-add-button" type="submit">
+              Übernehmen
+            </button>
+          </form>
+
+
+          <div class="finance-status" data-finance-status hidden></div>
+
+
+          <div class="finance-workspace">
+
+            <section class="finance-section">
+
+              <header class="finance-section-header">
+                <div>
+                  <h3>Monatlich fest</h3>
+                  <p>Wiederkehrende Einnahmen und Ausgaben</p>
+                </div>
+              </header>
+
+
+              <form
+                class="finance-entry-form"
+                data-finance-recurring-form
+              >
+
+                <label>
+                  <span>Art</span>
+                  <select name="entry_type" required>
+                    <option value="income">Einnahme</option>
+                    <option value="fixed_expense">Ausgabe</option>
+                  </select>
+                </label>
+
+                <label class="finance-name-field">
+                  <span>Bezeichnung</span>
+                  <input
+                    name="name"
+                    type="text"
+                    maxlength="80"
+                    autocomplete="off"
+                    required
+                  />
+                </label>
+
+                <label>
+                  <span>Betrag</span>
+                  <div class="finance-amount-input">
+                    <input
+                      name="amount"
+                      type="text"
+                      inputmode="decimal"
+                      maxlength="14"
+                      pattern="[0-9]+(,[0-9]{1,2})?"
+                      placeholder="0,00"
+                      required
+                    />
+                    <span>€</span>
+                  </div>
+                </label>
+
+                <button class="finance-add-button" type="submit">
+                  <i class="ti ti-plus"></i>
+                  Hinzufügen
+                </button>
+
+              </form>
+
+
+              <div
+                class="finance-list"
+                data-finance-recurring-list
+              ></div>
+
+            </section>
+
+
+            <section class="finance-section finance-variable-section">
+
+              <header class="finance-section-header">
+                <div>
+                  <h3>Weitere Ausgaben</h3>
+                  <p>Alles, was im ausgewählten Monat dazukommt</p>
+                </div>
+              </header>
+
+
+              <form
+                class="finance-entry-form finance-expense-form"
+                data-finance-expense-form
+              >
+
+                <label class="finance-name-field">
+                  <span>Bezeichnung</span>
+                  <input
+                    name="name"
+                    type="text"
+                    maxlength="80"
+                    autocomplete="off"
+                    required
+                  />
+                </label>
+
+                <label>
+                  <span>Datum</span>
+                  <input
+                    name="spent_on"
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="10"
+                    pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
+                    placeholder="TT/MM/JJJJ"
+                    aria-label="Datum im Format Tag Monat Jahr"
+                    required
+                  />
+                </label>
+
+                <label>
+                  <span>Betrag</span>
+                  <div class="finance-amount-input">
+                    <input
+                      name="amount"
+                      type="text"
+                      inputmode="decimal"
+                      maxlength="14"
+                      pattern="[0-9]+(,[0-9]{1,2})?"
+                      placeholder="0,00"
+                      required
+                    />
+                    <span>€</span>
+                  </div>
+                </label>
+
+                <button class="finance-add-button" type="submit">
+                  <i class="ti ti-plus"></i>
+                  Hinzufügen
+                </button>
+
+              </form>
+
+
+              <div
+                class="finance-list"
+                data-finance-expense-list
+              ></div>
+
+            </section>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PET
+        ================================================== -->
+
+        <section
+          id="dashboard-pet"
+          class="panel pet-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-pet"
+          data-dashboard-panel="pet"
+          hidden
+        >
+
+          <div class="panel-header pet-panel-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                Alltag
+              </span>
+
+              <h2>
+                Haustier
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="pet-workspace">
+
+            <section class="pet-section pet-feeding-section">
+              <div class="pet-section-header">
+                <div>
+                  <h3>Futterzeiten</h3>
+                  <p data-pet-feeding-summary>Heute noch nichts geplant</p>
+                </div>
+                <i class="ti ti-bowl-spoon" aria-hidden="true"></i>
+              </div>
+
+              <form class="pet-inline-form" data-pet-feeding-form>
+                <label>
+                  <span>Bezeichnung</span>
+                  <input type="text" name="label" maxlength="60" placeholder="z. B. Abendessen" required />
+                </label>
+                <label class="pet-time-field">
+                  <span>Uhrzeit</span>
+                  <input
+                    type="text"
+                    name="time_of_day"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    maxlength="5"
+                    pattern="(?:[01][0-9]|2[0-3]):[0-5][0-9]"
+                    placeholder="HH:MM"
+                    aria-describedby="pet-time-format"
+                    required
+                  />
+                  <small id="pet-time-format" class="visually-hidden">
+                    Uhrzeit im 24-Stunden-Format, zum Beispiel 18:30
+                  </small>
+                </label>
+                <button type="submit" aria-label="Futterzeit hinzufügen">
+                  <i class="ti ti-plus"></i>
+                  <span>Hinzufügen</span>
+                </button>
+              </form>
+
+              <div class="pet-list" data-pet-feeding-list>
+                <div class="pet-empty">Futterzeiten werden geladen...</div>
+              </div>
+
+            </section>
+
+            <section class="pet-section pet-weight-section">
+              <div class="pet-section-header">
+                <div>
+                  <h3>Gewicht</h3>
+                  <p data-pet-weight-summary>Noch kein Eintrag</p>
+                </div>
+                <i class="ti ti-chart-line" aria-hidden="true"></i>
+              </div>
+
+              <form class="pet-inline-form" data-pet-weight-form>
+                <label>
+                  <span>Gewicht in kg</span>
+                  <input type="number" name="weight_kg" min="0.1" max="100" step="0.01" inputmode="decimal" placeholder="5,00" required />
+                </label>
+                <label>
+                  <span>Datum</span>
+                  <input
+                    type="text"
+                    name="recorded_on"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    maxlength="10"
+                    pattern="[0-3][0-9]/[01][0-9]/[0-9]{4}"
+                    placeholder="TT/MM/JJJJ"
+                    aria-describedby="pet-date-format"
+                    required
+                  />
+                  <small id="pet-date-format" class="visually-hidden">
+                    Datum im Format Tag, Monat und vierstelliges Jahr
+                  </small>
+                </label>
+                <button type="submit" aria-label="Gewicht speichern">
+                  <i class="ti ti-plus"></i>
+                  <span>Speichern</span>
+                </button>
+              </form>
+
+              <div class="pet-chart-wrap">
+                <canvas id="pet-weight-chart" aria-label="Gewichtsverlauf des Haustiers" role="img"></canvas>
+                <div class="pet-chart-empty" data-pet-weight-empty>
+                  Trage das erste Gewicht ein, um den Verlauf zu sehen.
+                </div>
+              </div>
+
+              <div class="pet-weight-history" data-pet-weight-list></div>
+            </section>
+
+            <section class="pet-section pet-shopping-section">
+              <div class="pet-section-header">
+                <div>
+                  <h3>Einkaufsliste</h3>
+                  <p data-pet-shopping-summary>Liste ist leer</p>
+                </div>
+                <i class="ti ti-shopping-bag" aria-hidden="true"></i>
+              </div>
+
+              <form class="pet-inline-form pet-shopping-form" data-pet-shopping-form>
+                <label>
+                  <span>Artikel</span>
+                  <input type="text" name="name" maxlength="100" placeholder="z. B. Nassfutter" required />
+                </label>
+                <button type="submit" aria-label="Artikel hinzufügen">
+                  <i class="ti ti-plus"></i>
+                  <span>Hinzufügen</span>
+                </button>
+              </form>
+
+              <div class="pet-list" data-pet-shopping-list>
+                <div class="pet-empty">Einkaufsliste wird geladen...</div>
+              </div>
+            </section>
+
+          </div>
+
+        </section>
+
+        <section
+          id="dashboard-services"
+          class="panel services-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-services"
+          data-dashboard-panel="services"
+          hidden
+        >
+          <header class="panel-header services-panel-header">
+            <div class="services-heading">
+              <span class="section-eyebrow">System</span>
+              <h2>Dienste</h2>
+            </div>
+
+            <div class="services-header-actions">
+              <span
+                class="services-overall-status is-loading"
+                data-services-summary
+              >
+                Status wird geprüft
+              </span>
+              <button
+                class="services-refresh-button"
+                type="button"
+                aria-label="Dienststatus aktualisieren"
+                title="Aktualisieren"
+                data-services-refresh
+              >
+                <i class="ti ti-refresh" aria-hidden="true"></i>
+              </button>
+            </div>
+          </header>
+
+          <div class="services-workspace">
+            <section
+              class="services-list-section"
+              aria-labelledby="services-list-title"
+            >
+              <div class="services-section-heading">
+                <div>
+                  <h3 id="services-list-title">Prozesse</h3>
+                  <p>Live-Status der zentralen MONOLITH-Komponenten</p>
+                </div>
+                <span data-services-updated>Noch nicht geprüft</span>
+              </div>
+
+              <div
+                class="services-list is-loading"
+                data-services-list
+                aria-live="polite"
+              >
+                {% for item in range(3) %}
+                <div class="service-row service-row-skeleton" aria-hidden="true">
+                  <span class="service-skeleton service-skeleton-icon"></span>
+                  <span class="service-skeleton-copy">
+                    <span class="service-skeleton service-skeleton-title"></span>
+                    <span class="service-skeleton service-skeleton-line"></span>
+                  </span>
+                  <span class="service-skeleton service-skeleton-state"></span>
+                </div>
+                {% endfor %}
+              </div>
+            </section>
+
+            <aside
+              class="services-terminal"
+              aria-labelledby="services-terminal-title"
+            >
+              <div class="services-terminal-bar">
+                <span class="services-terminal-icon" aria-hidden="true">
+                  <i class="ti ti-terminal-2"></i>
+                </span>
+                <div class="services-terminal-heading">
+                  <div>
+                    <h3 id="services-terminal-title">Live-Journal</h3>
+                    <span class="services-terminal-live">Live</span>
+                  </div>
+                  <span data-services-host>Verbindung wird aufgebaut</span>
+                </div>
+              </div>
+
+              <div
+                class="services-terminal-output"
+                data-services-terminal
+                role="log"
+                aria-label="Live-Protokoll der Systemdienste"
+              >
+                <p class="terminal-command"><span>$</span> journalctl --follow</p>
+                <p class="terminal-muted">Protokoll wird verbunden...</p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          id="dashboard-settings"
+          class="panel settings-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-settings"
+          data-dashboard-panel="settings"
+          hidden
+        >
+          <header class="panel-header settings-panel-header">
+            <div class="settings-heading">
+              <span class="section-eyebrow">System</span>
+              <h2>Einstellungen</h2>
+            </div>
+          </header>
+
+          <div class="settings-content">
+            <section
+              class="settings-option"
+              aria-labelledby="settings-notifications-title"
+            >
+              <span class="settings-option-icon" aria-hidden="true">
+                <i class="ti ti-bell"></i>
+              </span>
+
+              <div class="settings-option-copy">
+                <h3 id="settings-notifications-title">Benachrichtigungen</h3>
+                <p>
+                  Erlaube MONOLITH, dich über Erinnerungen und wichtige Ereignisse zu informieren.
+                </p>
+                <span class="settings-option-status" data-push-status>
+                  Auf diesem Gerät nicht verfügbar
+                </span>
+              </div>
+
+              <button
+                class="notification-button settings-notification-button"
+                type="button"
+                data-push-button
+                aria-label="Mitteilungen aktivieren"
+                aria-pressed="false"
+                title="Mitteilungen aktivieren"
+                hidden
+              >
+                <i class="ti ti-bell" aria-hidden="true"></i>
+                <span data-push-button-label>Mitteilungen aktivieren</span>
+              </button>
+            </section>
+          </div>
+        </section>
+
+        <section
+          id="dashboard-weather"
+          class="panel weather-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-weather"
+          data-dashboard-panel="weather"
+          hidden
+        >
+          <header class="panel-header weather-panel-header">
+            <div class="weather-heading">
+              <span class="section-eyebrow">Wetter</span>
+              <h2 data-weather-location-title>Wetter</h2>
+              <p data-weather-location-meta>Wähle einen Ort für aktuelle Daten und Prognosen.</p>
+            </div>
+
+            <div class="weather-header-actions">
+              <form class="weather-location-search" data-weather-search-form role="search">
+                <label class="visually-hidden" for="weather-location-query">Stadt oder deutsche Postleitzahl suchen</label>
+                <i class="ti ti-search" aria-hidden="true"></i>
+                <input
+                  id="weather-location-query"
+                  type="search"
+                  placeholder="Stadt oder deutsche PLZ"
+                  autocomplete="off"
+                  aria-autocomplete="list"
+                  aria-controls="weather-location-results"
+                  aria-expanded="false"
+                  data-weather-search-input
+                />
+                <button type="submit">Suchen</button>
+                <div
+                  id="weather-location-results"
+                  class="weather-location-results"
+                  role="listbox"
+                  data-weather-search-results
+                  hidden
+                ></div>
+              </form>
+
+              <button
+                class="weather-refresh-button"
+                type="button"
+                aria-label="Wetterdaten aktualisieren"
+                title="Wetterdaten aktualisieren"
+                data-weather-refresh
+              >
+                <i class="ti ti-refresh" aria-hidden="true"></i>
+              </button>
+            </div>
+          </header>
+
+          <div class="weather-status" data-weather-status role="status" hidden></div>
+
+          <div class="weather-loading" data-weather-loading hidden aria-hidden="true">
+            <div class="weather-skeleton weather-skeleton-current"></div>
+            <div class="weather-skeleton-row">
+              <span class="weather-skeleton"></span>
+              <span class="weather-skeleton"></span>
+              <span class="weather-skeleton"></span>
+              <span class="weather-skeleton"></span>
+            </div>
+            <div class="weather-skeleton weather-skeleton-chart"></div>
+          </div>
+
+          <div class="weather-empty" data-weather-empty>
+            <span class="weather-empty-icon" aria-hidden="true">
+              <i class="ti ti-map-pin-search"></i>
+            </span>
+            <h3>Dein Wetter beginnt mit einem Ort</h3>
+            <p>Suche oben nach einer Stadt oder fünfstelligen deutschen PLZ. MONOLITH speichert deine Auswahl und den lokalen Verlauf.</p>
+            <button type="button" data-weather-focus-search>Ort auswählen</button>
+          </div>
+
+          <div class="weather-workspace" data-weather-content hidden>
+            <section class="weather-current" aria-labelledby="weather-current-heading">
+              <div class="weather-current-primary">
+                <span class="weather-condition-icon" aria-hidden="true">
+                  <i class="ti ti-cloud" data-weather-current-icon></i>
+                </span>
+                <div>
+                  <span class="section-eyebrow">Jetzt</span>
+                  <h3 id="weather-current-heading" data-weather-description>Aktuelles Wetter</h3>
+                  <p data-weather-current-detail></p>
+                </div>
+                <strong class="weather-current-temperature" data-weather-temperature>-</strong>
+              </div>
+
+              <dl class="weather-metrics">
+                <div>
+                  <dt><i class="ti ti-droplet" aria-hidden="true"></i>Luftfeuchtigkeit</dt>
+                  <dd data-weather-humidity>-</dd>
+                </div>
+                <div>
+                  <dt><i class="ti ti-umbrella" aria-hidden="true"></i>Regenchance</dt>
+                  <dd data-weather-rain-chance>-</dd>
+                </div>
+                <div>
+                  <dt><i class="ti ti-wind" aria-hidden="true"></i>Wind</dt>
+                  <dd data-weather-wind>-</dd>
+                </div>
+                <div>
+                  <dt><i class="ti ti-gauge" aria-hidden="true"></i>Luftdruck</dt>
+                  <dd data-weather-pressure>-</dd>
+                </div>
+                <div>
+                  <dt><i class="ti ti-eye" aria-hidden="true"></i>Sichtweite</dt>
+                  <dd data-weather-visibility>-</dd>
+                </div>
+                <div>
+                  <dt><i class="ti ti-sun-high" aria-hidden="true"></i>UV-Index</dt>
+                  <dd data-weather-uv>-</dd>
+                </div>
+              </dl>
+            </section>
+
+            <section class="weather-hourly-section" aria-labelledby="weather-hourly-heading">
+              <div class="weather-section-heading">
+                <div>
+                  <span class="section-eyebrow">Nächste Stunden</span>
+                  <h3 id="weather-hourly-heading">Heute im Detail</h3>
+                </div>
+                <div class="weather-sun-times" data-weather-sun-times></div>
+              </div>
+              <div class="weather-hourly-list" data-weather-hourly-list></div>
+            </section>
+
+            <section class="weather-charts-section" aria-labelledby="weather-charts-heading">
+              <div class="weather-section-heading weather-charts-heading">
+                <div>
+                  <span class="section-eyebrow">Verlauf und Prognose</span>
+                  <h3 id="weather-charts-heading">Wetterentwicklung</h3>
+                </div>
+                <div class="range-selector weather-range-selector" aria-label="Diagrammzeitraum">
+                  <button class="range-button active" type="button" data-weather-range="48">48h</button>
+                  <button class="range-button" type="button" data-weather-range="168">7 Tage</button>
+                  <button class="range-button" type="button" data-weather-range="history">Rückblick</button>
+                </div>
+              </div>
+
+              <div class="weather-chart-grid">
+                <article class="weather-chart-block">
+                  <div class="weather-chart-label">
+                    <span>Temperatur</span>
+                  </div>
+                  <div class="weather-chart-canvas"><canvas id="weather-temperature-chart"></canvas></div>
+                </article>
+                <article class="weather-chart-block">
+                  <div class="weather-chart-label">
+                    <span>Niederschlag</span>
+                  </div>
+                  <div class="weather-chart-canvas"><canvas id="weather-precipitation-chart"></canvas></div>
+                </article>
+              </div>
+            </section>
+
+            <section class="weather-forecast-section" aria-labelledby="weather-forecast-heading">
+              <div class="weather-section-heading">
+                <div>
+                  <span class="section-eyebrow">Ausblick</span>
+                  <h3 id="weather-forecast-heading">10-Tage-Prognose</h3>
+                </div>
+                <div class="weather-history-summary" data-weather-history-summary></div>
+              </div>
+              <div class="weather-daily-list" data-weather-daily-list></div>
+            </section>
+
+            <footer class="weather-footer">
+              <span data-weather-updated>Zuletzt aktualisiert: -</span>
+              <span class="weather-footer-sources">
+                <a
+                  href="https://www.openstreetmap.org/copyright"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-weather-location-attribution
+                  hidden
+                >PLZ-Daten von OpenStreetMap</a>
+                <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Wetterdaten von Open-Meteo</a>
+              </span>
+            </footer>
+          </div>
+        </section>
+
+        <section
+          id="dashboard-server"
+          class="panel server-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-server"
+          data-dashboard-panel="server"
+          hidden
+        >
+          <header class="panel-header server-panel-header">
+            <div class="server-heading">
+              <span class="section-eyebrow">System</span>
+              <h2>Raspberry Pi</h2>
+              <p data-server-subtitle>Systemdaten werden geladen</p>
+            </div>
+
+            <div class="server-header-actions">
+              <span class="server-overall-status is-loading" data-server-health>
+                Status wird geprüft
+              </span>
+              <button
+                class="server-refresh-button"
+                type="button"
+                aria-label="Raspberry-Pi-Status aktualisieren"
+                title="Aktualisieren"
+                data-server-refresh
+              >
+                <i class="ti ti-refresh" aria-hidden="true"></i>
+              </button>
+            </div>
+          </header>
+
+          <div class="server-scroll-area">
+            <div class="server-content">
+              <section class="server-primary-metrics" aria-label="Ressourcenauslastung">
+                {% for metric, label, icon in [
+                  ("cpu", "CPU", "ti-cpu"),
+                  ("temperature", "Temperatur", "ti-temperature"),
+                  ("memory", "Arbeitsspeicher", "ti-server"),
+                  ("storage", "Systemspeicher", "ti-device-sd-card")
+                ] %}
+                <article class="server-metric is-loading" data-server-metric="{{ metric }}">
+                  <span class="server-metric-icon" aria-hidden="true">
+                    <i class="ti {{ icon }}"></i>
+                  </span>
+                  <div class="server-metric-copy">
+                    <span>{{ label }}</span>
+                    <strong data-server-metric-value>--</strong>
+                    <small data-server-metric-detail>Wird ermittelt</small>
+                  </div>
+                  <div class="server-meter" aria-hidden="true">
+                    <span data-server-meter-fill></span>
+                  </div>
+                </article>
+                {% endfor %}
+              </section>
+
+              <div class="server-dashboard-grid">
+                <div class="server-dashboard-column">
+                  <section class="server-block server-performance" aria-labelledby="server-performance-title">
+                    <div class="server-block-heading">
+                      <span class="server-block-icon" aria-hidden="true"><i class="ti ti-gauge"></i></span>
+                      <div>
+                        <h3 id="server-performance-title">Leistung</h3>
+                        <p>CPU, Last und Speicherreserven</p>
+                      </div>
+                    </div>
+                    <div class="server-stat-grid" data-server-performance>
+                      <div class="server-stat-skeleton" aria-hidden="true"></div>
+                      <div class="server-stat-skeleton" aria-hidden="true"></div>
+                      <div class="server-stat-skeleton" aria-hidden="true"></div>
+                      <div class="server-stat-skeleton" aria-hidden="true"></div>
+                    </div>
+                  </section>
+
+                  <section class="server-block server-network" aria-labelledby="server-network-title">
+                    <div class="server-block-heading">
+                      <span class="server-block-icon" aria-hidden="true"><i class="ti ti-network"></i></span>
+                      <div>
+                        <h3 id="server-network-title">Netzwerk</h3>
+                        <p>Lokale Schnittstelle und Datenvolumen</p>
+                      </div>
+                    </div>
+                    <div class="server-network-body" data-server-network>
+                      <div class="server-network-address">
+                        <span>IPv4-Adresse</span>
+                        <strong>Wird geladen</strong>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+
+                <div class="server-dashboard-column">
+                  <section class="server-block server-identity" aria-labelledby="server-identity-title">
+                    <div class="server-block-heading">
+                      <span class="server-block-icon" aria-hidden="true"><i class="ti ti-device-desktop-analytics"></i></span>
+                      <div>
+                        <h3 id="server-identity-title">System</h3>
+                        <p>Hardware und Betriebssystem</p>
+                      </div>
+                    </div>
+                    <dl class="server-detail-list" data-server-identity>
+                      <div><dt>Modell</dt><dd>Wird geladen</dd></div>
+                      <div><dt>Betriebssystem</dt><dd>Wird geladen</dd></div>
+                      <div><dt>Kernel</dt><dd>Wird geladen</dd></div>
+                    </dl>
+                  </section>
+
+                  <section class="server-block server-health" aria-labelledby="server-health-title">
+                    <div class="server-block-heading">
+                      <span class="server-block-icon" aria-hidden="true"><i class="ti ti-heart-rate-monitor"></i></span>
+                      <div>
+                        <h3 id="server-health-title">Systemcheck</h3>
+                        <p>Thermik, Spannung und Wartung</p>
+                      </div>
+                    </div>
+                    <div class="server-check-list" data-server-checks>
+                      <div class="server-check-skeleton" aria-hidden="true"></div>
+                      <div class="server-check-skeleton" aria-hidden="true"></div>
+                      <div class="server-check-skeleton" aria-hidden="true"></div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+
+              <footer class="server-footer">
+                <span data-server-updated>Noch nicht geprüft</span>
+                <span>Automatische Aktualisierung alle 15 Sekunden</span>
+              </footer>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="dashboard-network"
+          class="panel network-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-network"
+          data-dashboard-panel="network"
+          hidden
+        >
+          <header class="panel-header network-panel-header">
+            <div class="network-heading">
+              <span class="section-eyebrow">System</span>
+              <h2>Netzwerk</h2>
+              <p data-network-subtitle>FRITZ!Box-Daten werden geladen</p>
+            </div>
+            <div class="network-header-actions">
+              <span class="network-overall-status is-loading" data-network-health>
+                Verbindung wird geprüft
+              </span>
+              <button
+                class="network-refresh-button"
+                type="button"
+                aria-label="Netzwerkstatus aktualisieren"
+                title="Aktualisieren"
+                data-network-refresh
+              >
+                <i class="ti ti-refresh" aria-hidden="true"></i>
+              </button>
+            </div>
+          </header>
+
+          <div class="network-scroll-area">
+            <div class="network-content">
+              <div class="network-error" role="status" data-network-error hidden></div>
+
+              <section class="network-summary" aria-label="Netzwerkübersicht">
+                {% for metric, label, icon in [
+                  ("internet", "Internet", "ti-world"),
+                  ("connection", "Verbindung", "ti-transfer"),
+                  ("router", "FRITZ!Box", "ti-router"),
+                  ("home", "Heimnetz", "ti-devices")
+                ] %}
+                <article class="network-summary-card is-loading" data-network-summary="{{ metric }}">
+                  <span class="network-summary-icon" aria-hidden="true">
+                    <i class="ti {{ icon }}"></i>
+                  </span>
+                  <div>
+                    <span>{{ label }}</span>
+                    <strong data-network-summary-value>--</strong>
+                    <small data-network-summary-detail>Wird ermittelt</small>
+                  </div>
+                </article>
+                {% endfor %}
+              </section>
+
+              <section class="network-section network-traffic" aria-labelledby="network-traffic-title">
+                <div class="network-section-heading">
+                  <div>
+                    <h3 id="network-traffic-title">Datenverkehr</h3>
+                    <p>Download und Upload der letzten Stunde</p>
+                  </div>
+                  <div class="network-traffic-legend" aria-hidden="true">
+                    <span class="is-download">Download</span>
+                    <span class="is-upload">Upload</span>
+                  </div>
+                </div>
+                <div class="network-chart" data-network-chart>
+                  <div class="network-chart-skeleton" aria-hidden="true"></div>
+                </div>
+                <div class="network-chart-axis" aria-hidden="true">
+                  <span>vor 60 Min.</span>
+                  <span>jetzt</span>
+                </div>
+              </section>
+
+              <section class="network-section network-devices" aria-labelledby="network-devices-title">
+                <div class="network-section-heading network-device-heading">
+                  <div>
+                    <h3 id="network-devices-title">Geräte</h3>
+                    <p data-network-device-count>Geräteliste wird geladen</p>
+                  </div>
+                  <label class="network-search">
+                    <i class="ti ti-search" aria-hidden="true"></i>
+                    <span class="sr-only">Geräte suchen</span>
+                    <input type="search" placeholder="Name, IP oder MAC" data-network-search>
+                  </label>
+                </div>
+                <div class="network-filters" role="group" aria-label="Geräte filtern" data-network-filters>
+                  {% for value, label in [
+                    ("all", "Alle"),
+                    ("online", "Online"),
+                    ("offline", "Offline"),
+                    ("wlan", "WLAN"),
+                    ("lan", "LAN"),
+                    ("unknown", "Unbekannt"),
+                    ("new", "Neu")
+                  ] %}
+                  <button
+                    type="button"
+                    class="{% if value == 'all' %}active{% endif %}"
+                    data-network-filter="{{ value }}"
+                    aria-pressed="{% if value == 'all' %}true{% else %}false{% endif %}"
+                  >{{ label }}<span data-network-filter-count="{{ value }}"></span></button>
+                  {% endfor %}
+                </div>
+                <div class="network-device-table" data-network-devices>
+                  <div class="network-device-skeleton" aria-hidden="true"></div>
+                  <div class="network-device-skeleton" aria-hidden="true"></div>
+                  <div class="network-device-skeleton" aria-hidden="true"></div>
+                </div>
+              </section>
+
+              <div class="network-lower-grid">
+                <section class="network-section network-mesh" aria-labelledby="network-mesh-title">
+                  <div class="network-section-heading">
+                    <div>
+                      <h3 id="network-mesh-title">Mesh</h3>
+                      <p>Hierarchie der Netzwerkverbindungen</p>
+                    </div>
+                    <span class="network-section-count" data-network-mesh-count>--</span>
+                  </div>
+                  <div class="network-mesh-tree" data-network-mesh>
+                    <div class="network-line-skeleton" aria-hidden="true"></div>
+                    <div class="network-line-skeleton" aria-hidden="true"></div>
+                  </div>
+                </section>
+
+                <section class="network-section network-wlan" aria-labelledby="network-wlan-title">
+                  <div class="network-section-heading">
+                    <div>
+                      <h3 id="network-wlan-title">WLAN</h3>
+                      <p>Funknetze und aktuelle Kanäle</p>
+                    </div>
+                  </div>
+                  <div class="network-wlan-list" data-network-wlan>
+                    <div class="network-line-skeleton" aria-hidden="true"></div>
+                    <div class="network-line-skeleton" aria-hidden="true"></div>
+                  </div>
+                </section>
+
+                <section class="network-section network-feed" aria-labelledby="network-feed-title">
+                  <div class="network-section-heading">
+                    <div>
+                      <h3 id="network-feed-title">Netzwerkereignisse</h3>
+                      <p>Nur Meldungen aus FRITZ!Box und Heimnetz</p>
+                    </div>
+                  </div>
+                  <div class="network-event-list" data-network-events>
+                    <div class="network-line-skeleton" aria-hidden="true"></div>
+                    <div class="network-line-skeleton" aria-hidden="true"></div>
+                  </div>
+                </section>
+              </div>
+
+              <footer class="network-footer">
+                <span data-network-updated>Noch nicht geprüft</span>
+                <span>Automatische Aktualisierung alle 15 Sekunden</span>
+              </footer>
+            </div>
+          </div>
+
+          <dialog class="network-device-dialog" data-network-device-dialog aria-labelledby="network-device-dialog-title">
+            <div class="network-device-dialog-shell">
+              <header class="network-device-dialog-header">
+                <div>
+                  <span class="section-eyebrow">Netzwerkgerät</span>
+                  <h3 id="network-device-dialog-title" data-network-detail-name>Gerät</h3>
+                  <p data-network-detail-status>Status wird geladen</p>
+                </div>
+                <button type="button" aria-label="Gerätedetails schließen" data-network-detail-close>
+                  <i class="ti ti-x" aria-hidden="true"></i>
+                </button>
+              </header>
+              <div class="network-device-dialog-body">
+                <dl class="network-device-detail-list" data-network-detail-list></dl>
+                <div class="network-device-flags">
+                  <button type="button" data-network-detail-known></button>
+                  <button type="button" data-network-detail-important></button>
+                </div>
+              </div>
+            </div>
+          </dialog>
+        </section>
+
+        <!-- =================================================
+             CAMERAS
+        ================================================== -->
+
+        <section
+          id="dashboard-cameras"
+          class="panel camera-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-cameras"
+          data-dashboard-panel="cameras"
+          hidden
+        >
+          <div class="panel-header camera-panel-header">
+            <div>
+              <span class="section-eyebrow">Zuhause</span>
+              <h2>Kameras</h2>
+            </div>
+
+            <div
+              class="camera-header-status"
+              data-camera-header-status
+              aria-live="polite"
+            >
+              Ereignisse werden geladen...
+            </div>
+          </div>
+
+          <div class="camera-dashboard">
+            <section
+              class="camera-live-section"
+              aria-labelledby="camera-live-title"
+            >
+              <div class="camera-live-stage">
+                <img
+                  class="camera-live-feed"
+                  data-camera-live-feed
+                  alt="Livebild der Kamera im Wohnzimmer"
+                >
+
+                <div
+                  class="camera-live-empty"
+                  data-camera-live-placeholder
+                >
+                  <span class="camera-live-icon" aria-hidden="true">
+                    <i class="ti ti-camera"></i>
+                  </span>
+                  <div>
+                    <h3 id="camera-live-title" data-camera-live-title>
+                      Livebild wird vorbereitet
+                    </h3>
+                    <p data-camera-live-message>
+                      Die Kamera wird lokal über den MONOLITH-Server verbunden.
+                    </p>
+                    <button
+                      class="camera-live-retry"
+                      type="button"
+                      data-camera-live-retry
+                      hidden
+                    >
+                      Erneut verbinden
+                    </button>
+                  </div>
+                </div>
+
+                <div class="camera-live-meta" aria-label="Kamerastatus">
+                  <span>
+                    <i class="ti ti-map-pin" aria-hidden="true"></i>
+                    <span data-camera-name>Wohnzimmer</span>
+                  </span>
+                  <span class="camera-live-state" data-camera-live-state>
+                    <i
+                      class="ti ti-loader-2"
+                      data-camera-live-state-icon
+                      aria-hidden="true"
+                    ></i>
+                    <span data-camera-live-state-label>Wird geprüft</span>
+                  </span>
+                </div>
+              </div>
+            </section>
+
+            <section
+              class="camera-events-section"
+              aria-labelledby="camera-events-title"
+            >
+              <div class="camera-events-heading">
+                <div>
+                  <h3 id="camera-events-title">Bewegungsereignisse</h3>
+                  <p>Letzte sieben Tage, ohne Videoaufzeichnung</p>
+                </div>
+
+                <button
+                  class="camera-refresh-button"
+                  type="button"
+                  data-camera-refresh
+                  aria-label="Kameraereignisse aktualisieren"
+                >
+                  <i class="ti ti-refresh" aria-hidden="true"></i>
+                  <span>Aktualisieren</span>
+                </button>
+              </div>
+
+              <div class="camera-events-layout">
+                <nav
+                  class="camera-day-selector"
+                  data-camera-day-selector
+                  aria-label="Tag auswählen"
+                ></nav>
+
+                <div class="camera-timeline-pane">
+                  <div class="camera-timeline-heading">
+                    <div>
+                      <strong data-camera-selected-day>Heute</strong>
+                      <span>24-Stunden-Verlauf</span>
+                    </div>
+                    <span data-camera-selected-count>0 Ereignisse</span>
+                  </div>
+
+                  <div class="camera-timeline-shell">
+                    <div
+                      class="camera-timeline"
+                      data-camera-timeline
+                      aria-live="polite"
+                    >
+                      <div class="camera-timeline-loading">
+                        Ereignisse werden geladen...
+                      </div>
+                    </div>
+
+                    <div class="camera-timeline-scale" aria-hidden="true">
+                      <span>00:00</span>
+                      <span>06:00</span>
+                      <span>12:00</span>
+                      <span>18:00</span>
+                      <span>24:00</span>
+                    </div>
+                  </div>
+
+                  <p class="camera-timeline-hint">
+                    Marker auswählen, um das Ereignis im Verlauf zu finden.
+                  </p>
+                </div>
+
+                <aside
+                  class="camera-event-log"
+                  aria-label="Ereignisse des ausgewählten Tages"
+                >
+                  <div class="camera-event-log-heading">
+                    <strong>Ereignisse</strong>
+                    <span>Neueste zuerst</span>
+                  </div>
+
+                  <div
+                    class="camera-event-list"
+                    data-camera-event-list
+                    aria-live="polite"
+                  >
+                    <div class="camera-events-loading">
+                      Bewegungsereignisse werden geladen...
+                    </div>
+                  </div>
+                </aside>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        {% set upcoming_areas = [
+          ("departures", "Abfahrten", "Planer", "ti-bus", "Die nächsten Busse und Bahnen werden hier ergänzt.")
+        ] %}
+
+        {% for area_id, area_title, area_group, area_icon, area_description in upcoming_areas %}
+        <section
+          id="dashboard-{{ area_id }}"
+          class="panel placeholder-panel dashboard-empty-panel"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab-{{ area_id }}"
+          data-dashboard-panel="{{ area_id }}"
+          hidden
+        >
+          <div class="dashboard-empty-content">
+            <span class="dashboard-empty-icon" aria-hidden="true">
+              <i class="ti {{ area_icon }}"></i>
+            </span>
+            <span class="section-eyebrow">{{ area_group }}</span>
+            <h2>{{ area_title }}</h2>
+            <p>{{ area_description }}</p>
+            <span class="dashboard-empty-state">Bereich vorbereitet</span>
+          </div>
+        </section>
+        {% endfor %}
+
+      </main>
+
+    </div>
+
+
+    <dialog
+      class="shopping-order-dialog"
+      data-picnic-delivery-dialog
+      aria-labelledby="picnic-delivery-dialog-title"
+    >
+
+      <div class="shopping-order-dialog-shell">
+
+        <header class="shopping-order-dialog-header">
+
+          <div>
+
+            <span class="section-eyebrow">
+              Picnic
+            </span>
+
+            <h2 id="picnic-delivery-dialog-title">
+              Bestellung
+            </h2>
+
+            <p data-picnic-delivery-dialog-meta></p>
+
+          </div>
+
+
+          <button
+            class="shopping-order-dialog-close"
+            type="button"
+            data-picnic-delivery-dialog-close
+            aria-label="Bestellung schließen"
+          >
+            <i class="ti ti-x"></i>
+          </button>
+
+        </header>
+
+
+        <div class="shopping-order-dialog-summary">
+
+          <span data-picnic-delivery-dialog-count>
+            -
+          </span>
+
+          <strong data-picnic-delivery-dialog-total>
+            -
+          </strong>
+
+        </div>
+
+
+        <div
+          class="shopping-order-dialog-items"
+          data-picnic-delivery-dialog-items
+        >
+
+          <div class="shopping-empty">
+            Bestellung wird geladen...
+          </div>
+
+        </div>
+
+      </div>
+
+    </dialog>
+
+
+    <script
+      src="{{ url_for('static', filename='app.js', v='20261009-public-neutral-2') }}"
+    ></script>
+
+
+    <!-- =====================================================
+         PRESENCE UI
+    ====================================================== -->
+
+    <script>
+      const presenceState = {};
+
+
+      function formatPresenceTime(timestamp) {
+        const date =
+          new Date(
+            timestamp * 1000
+          );
+
+
+        return date.toLocaleTimeString(
+          "de-DE",
+          {
+            hour: "2-digit",
+            minute: "2-digit",
+          }
+        );
+      }
+
+
+      function formatPresenceSinceTime(timestamp) {
+        const date =
+          new Date(
+            timestamp * 1000
+          );
+
+        const now = new Date();
+
+
+        const localCalendarDay = value =>
+          Date.UTC(
+            value.getFullYear(),
+            value.getMonth(),
+            value.getDate()
+          );
+
+
+        const daysAgo = Math.round(
+          (
+            localCalendarDay(now)
+            - localCalendarDay(date)
+          )
+          / 86400000
+        );
+
+        const time =
+          formatPresenceTime(
+            timestamp
+          );
+
+
+        if (daysAgo === 1) {
+          return `gestern, ${time}\u00a0Uhr`;
+        }
+
+
+        if (daysAgo > 7) {
+          const calendarDate = `${date.getDate()}.${date.getMonth() + 1}.`;
+          return `${calendarDate}, ${time}\u00a0Uhr`;
+        }
+
+
+        if (daysAgo > 1) {
+          const weekday =
+            date.toLocaleDateString(
+              "de-DE",
+              {
+                weekday: "long",
+              }
+            );
+
+
+          return `${weekday}, ${time}\u00a0Uhr`;
+        }
+
+
+        return `${time}\u00a0Uhr`;
+      }
+
+
+      function renderPresencePerson(
+        personId,
+        person
+      ) {
+        const element =
+          document.querySelector(
+            `[data-presence-person="${personId}"]`
+          );
+
+
+        if (!element) {
+          return;
+        }
+
+
+        const statusElement =
+          element.querySelector(
+            ".presence-person-status"
+          );
+
+
+        const timeElement = element.querySelector(".presence-person-time");
+        timeElement.hidden = true;
+        timeElement.textContent = "";
+        timeElement.removeAttribute("datetime");
+        element.querySelector(".device-icon i").className = "ti ti-door-exit";
+
+        element.classList.remove(
+          "home",
+          "away",
+          "checking",
+          "unconfigured",
+          "error"
+        );
+
+
+        presenceState[
+          personId
+        ] = person;
+
+
+        if (!person.configured) {
+          element.classList.add(
+            "unconfigured"
+          );
+
+          statusElement.textContent =
+            "Noch nicht eingerichtet";
+
+          return;
+        }
+
+
+        if (person.home === null) {
+          element.classList.add(
+            "checking"
+          );
+
+          statusElement.textContent =
+            "Wird geprüft...";
+
+          return;
+        }
+
+
+        const home = person.home === true;
+        element.classList.add(home ? "home" : "away");
+        element.querySelector(".device-icon i").className =
+          home ? "ti ti-door-enter" : "ti ti-door-exit";
+        statusElement.textContent = person.status_since
+          ? (home ? "Zuhause seit" : "Unterwegs seit")
+          : (home ? "Zuhause" : "Weg");
+
+        if (person.status_since) {
+          timeElement.textContent = formatPresenceSinceTime(person.status_since);
+          timeElement.dateTime = new Date(person.status_since * 1000).toISOString();
+          timeElement.hidden = false;
+        }
+      }
+
+
+      async function updatePresence() {
+        try {
+          const response =
+            await fetch(
+              "/api/presence"
+            );
+
+
+          if (!response.ok) {
+            throw new Error(
+              "Presence API nicht erreichbar"
+            );
+          }
+
+
+          const data =
+            await response.json();
+
+
+          if (!data.people) {
+            return;
+          }
+
+
+          Object.entries(
+            data.people
+          ).forEach(
+            ([
+              personId,
+              person
+            ]) => {
+              renderPresencePerson(
+                personId,
+                person
+              );
+            }
+          );
+
+        } catch (error) {
+          document
+            .querySelectorAll(
+              ".presence-person"
+            )
+            .forEach(
+              element => {
+
+                if (
+                  element.classList.contains(
+                    "unconfigured"
+                  )
+                ) {
+                  return;
+                }
+
+
+                element.classList.remove(
+                  "home",
+                  "away",
+                  "checking"
+                );
+
+
+                element.classList.add(
+                  "error"
+                );
+
+
+                const statusElement =
+                  element.querySelector(
+                    ".presence-person-status"
+                  );
+
+
+                statusElement.textContent =
+                  "Nicht erreichbar";
+                element.querySelector(".presence-person-time").hidden = true;
+                element.querySelector(".device-icon i").className = "ti ti-door-exit";
+              }
+            );
+        }
+      }
+
+
+      function refreshPresenceDurations() {
+        Object.entries(
+          presenceState
+        ).forEach(
+          ([
+            personId,
+            person
+          ]) => {
+            renderPresencePerson(
+              personId,
+              person
+            );
+          }
+        );
+      }
+
+
+      updatePresence();
+
+
+      setInterval(
+        updatePresence,
+        10000
+      );
+
+
+      setInterval(
+        refreshPresenceDurations,
+        30000
+      );
+    </script>
+
+  </body>
+</html>

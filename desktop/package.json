@@ -1,0 +1,35 @@
+{
+  "name": "monolith-desktop",
+  "version": "0.1.4",
+  "private": true,
+  "description": "Desktop wrapper for the MONOLITH dashboard",
+  "author": "MONOLITH",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win"
+  },
+  "build": {
+    "appId": "local.monolith.desktop",
+    "productName": "MONOLITH",
+    "files": [
+      "main.js",
+      "preload.js",
+      "offline.html",
+      "offline.js",
+      "assets/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "devDependencies": {
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3"
+  }
+}
